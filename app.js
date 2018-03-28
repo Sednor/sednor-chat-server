@@ -5,6 +5,8 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
 let indexRouter = require('./routes/index');
+let cors = require('./lib/cors');
+let config = require('./config');
 
 let app = express();
 
@@ -15,7 +17,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+//cors configuration
+app.use((req, res, next) => {
+    req.headers.origin = req.headers.origin || req.headers.host;
+    cors(config.whitelist);
+    next();
+});
 
 app.use('/', indexRouter);
 
@@ -30,9 +38,6 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
-
-app.listen(3001, () => console.log('Example app listening on port 3001!'));
 
 module.exports = app;
