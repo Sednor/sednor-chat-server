@@ -1,11 +1,11 @@
 let createError = require('http-errors');
 let express = require('express');
+let cors = require('cors');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
 let indexRouter = require('./routes/index');
-let cors = require('cors');
 let config = require('./config');
 
 let app = express();
