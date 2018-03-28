@@ -1,3 +1,3 @@
 module.exports = {
-    whitelist: ['http://localhost', 'https://sednor-chat-web.herokuapp.com']
+    whitelist: ['http://localhost:3001', 'https://sednor-chat-web.herokuapp.com']
 };
