@@ -5,7 +5,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
 let indexRouter = require('./routes/index');
-// let cors = require('./lib/cors');
 let cors = require('cors');
 let config = require('./config');
 
@@ -18,13 +17,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-//cors configuration
-// app.use((req, res, next) => {
-//     req.headers.origin = req.headers.origin || req.headers.host;
-//     cors(config.whitelist);
-//     next();
-// });
 
 app.use(cors({ origin: config.whitelist }));
 
