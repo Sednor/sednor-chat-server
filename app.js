@@ -26,7 +26,7 @@ app.use(cookieParser());
 //     next();
 // });
 
-app.use(cors());
+app.use(cors({ origin: config.whitelist }));
 
 app.use('/', indexRouter);
 
