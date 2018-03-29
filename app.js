@@ -5,9 +5,9 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
-let indexRouter = require('./routes/index');
+let publicRoutes = require('./routes/publicRoutes');
+let privateRoutes = require('./routes/privateRoutes');
 let config = require('./config');
-
 let app = express();
 
 // view engine setup
@@ -20,7 +20,10 @@ app.use(cookieParser());
 
 app.use(cors({ origin: config.whitelist }));
 
-app.use('/', indexRouter);
+app.use(`${config.apiPrefix}${config.publicPrefix}`, publicRoutes);
+app.use(config.apiPrefix, require('./middlewares/auth.js'));
+app.use(config.apiPrefix, privateRoutes);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(createError(404)));
