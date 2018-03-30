@@ -2,9 +2,9 @@ let jwt = require('jsonwebtoken');
 let config = require('../config/index');
 
 module.exports = function authMiddleware(req, res, next) {
-  if (req.hasOwnProperty('headers') && req.headers.hasOwnProperty('authorization')) {
+  if (req.hasOwnProperty('headers') && req.headers.hasOwnProperty(config.authHeader)) {
     try {
-      req.user = jwt.verify(req.headers.authorization, config.JWT_SECRET);
+      req.user = jwt.verify(req.headers[config.authHeader], config.JWT_SECRET);
     } catch (err) {
       return res.status(401).json({
         error: {

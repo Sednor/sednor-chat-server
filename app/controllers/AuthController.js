@@ -7,9 +7,10 @@ class AuthController {
   }
 
   static signIn(req, res) {
+    console.log(req.body); // eslint-disable-line
     if (req.body.email === 'admin@mail.com' && req.body.password === 'admin') {
-      res.set('authorization', jwt.sign({ id: 1, name: 'Vova' }, config.JWT_SECRET, { expiresIn: 60 * 60 }));
-      res.send(200);
+      res.set(config.authHeader, jwt.sign({ id: 1, name: 'Vova' }, config.JWT_SECRET, { expiresIn: 60 * 60 }));
+      res.sendStatus(200);
     } else {
       res.status(401).json({
         error: {
