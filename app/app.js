@@ -6,7 +6,7 @@ let logger = require('morgan');
 
 let publicRoutes = require('./routes/publicRoutes');
 let privateRoutes = require('./routes/privateRoutes');
-let config = require('./config');
+let config = require('./config/index');
 let app = express();
 
 // view engine setup
@@ -28,7 +28,7 @@ app.use(config.apiPrefix, privateRoutes);
 app.use((req, res, next) => next(createError(404)));
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
