@@ -2,6 +2,10 @@ let jwt = require('jsonwebtoken');
 let config = require('../config/index');
 
 class AuthController {
+    static get prefix() {
+        return '/auth';
+    }
+
     static signIn(req, res) {
         if( req.body.email === 'admin@mail.com' && req.body.password === 'admin' ) {
             res.set('authorization', jwt.sign({ id: 1, name: 'Vova' }, config.JWT_SECRET, { expiresIn: 60*60 }));
