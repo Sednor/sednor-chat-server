@@ -1,5 +1,6 @@
 let jwt = require('jsonwebtoken');
 let config = require('../config/index');
+let errors = require('../config/errors');
 
 module.exports = function authMiddleware(req, res, next) {
   if (req.hasOwnProperty('headers') && req.headers.hasOwnProperty(config.authHeader)) {
@@ -8,14 +9,14 @@ module.exports = function authMiddleware(req, res, next) {
     } catch (err) {
       return res.status(401).json({
         error: {
-          msg: 'Failed to authenticate token!'
+          msg: errors.authFailed
         }
       });
     }
   } else {
     return res.status(401).json({
       error: {
-        msg: 'No token!'
+        msg: errors.noToken
       }
     });
   }
