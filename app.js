@@ -1,7 +1,6 @@
 let createError = require('http-errors');
 let express = require('express');
 let cors = require('cors');
-let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
@@ -20,7 +19,7 @@ app.use(cookieParser());
 
 app.use(cors({ origin: config.whitelist }));
 
-app.use(`${config.apiPrefix}${config.publicPrefix}`, publicRoutes);
+app.use(config.apiPrefix, publicRoutes);
 app.use(config.apiPrefix, require('./middlewares/auth.js'));
 app.use(config.apiPrefix, privateRoutes);
 

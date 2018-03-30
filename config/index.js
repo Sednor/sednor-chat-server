@@ -1,6 +1,5 @@
 module.exports = {
     whitelist: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://sednor-chat-web.herokuapp.com'],
     JWT_SECRET: 'sednor',
-    apiPrefix: '/api/v1',
-    publicPrefix: '/public'
+    apiPrefix: '/api/v1'
 };
