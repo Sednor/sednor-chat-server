@@ -4,6 +4,8 @@ let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+let db = require('./config/db'); // eslint-disable-line
+
 let publicRoutes = require('./routes/publicRoutes');
 let privateRoutes = require('./routes/privateRoutes');
 let config = require('./config/index');
