@@ -48,12 +48,12 @@ class AuthController {
         password: hash
       });
 
-      USER.save(err => err ? res.status(500).json() : res.status(200).json());
+      USER.save(err => err ? res.sendStatus(500) : res.sendStatus(200));
     });
   }
 
   static current(req, res) {
-    res.json(req.user.data);
+    res.json(new UserDto(req.user.data));
   }
 }
 
