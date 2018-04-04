@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(cors({ origin: config.whitelist, exposedHeaders: [config.authHeader], credentials: true }));
+app.use(cors({ origin: config.whitelist, exposedHeaders: [config.authHeader] }));
 
 app.use(config.apiPrefix, publicRoutes);
 app.use(config.apiPrefix, require('./middlewares/auth.js'));
