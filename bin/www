@@ -99,12 +99,23 @@ function onListening() {
  * WS connection
  */
 
-let io = require('socket.io')(server, { path: config.wsPrefix });
+let io = require('socket.io')(server);
 
-io.use(wsAuthMiddleware);
+let chatNamespace = io.of(`${config.wsPrefix}${config.chatPrefix}`);
 
-io.on('connection', socket => {
-  socket.on('test-event', data => {
-    socket.emit('test-event', { data: `${data} hi how are you?` });
+chatNamespace.use(wsAuthMiddleware);
+
+chatNamespace.on('connection', socket => {
+  let rooms = ['room1', 'room2'];
+  rooms.forEach(room => socket.join(room));
+
+  socket.on('message', data => {
+    if (Object.keys(socket.rooms).includes(data.room)) {
+      chatNamespace.to(data.room).emit(`Message from ${socket.user.firstName}: ${data.payload}`);
+    }
+  });
+
+  socket.on('create-chat', data => {
+    socket.join(data.room);
   });
 });
