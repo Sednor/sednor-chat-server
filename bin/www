@@ -7,7 +7,6 @@
 let app = require('../app/app');
 let debug = require('debug')('sednor-chat-server:server');
 let http = require('http');
-let sockjs = require('sockjs');
 
 let config = require('../app/config/index');
 let wsAuthMiddleware = require('../app/middlewares/wsAuth');
