@@ -3,12 +3,14 @@ let ChatDto = require('../dtos/ChatDto');
 
 class ChatService {
   static findAll(userId) {
-    return new Promise((resolve, reject) => Chat.find({ users: userId }, (err, chats) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(chats.map(chat => new ChatDto(chat)));
-    }));
+    return new Promise((resolve, reject) => Chat.find({ users: userId })
+      .populate('users')
+      .exec((err, chats) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(chats.map(chat => new ChatDto(chat)));
+      }));
   }
 
   static findById(id) {
