@@ -17,7 +17,7 @@ class ChatController {
 
     ChatService.findById(req.params.id)
       .then(chatDto => {
-        if (!chatDto.users.map(user => user._id.toString()).includes(currentUser._id)) {
+        if (!chatDto.users.map(user => user._id).includes(currentUser._id)) {
           res.sendStatus(403);
           return;
         }
