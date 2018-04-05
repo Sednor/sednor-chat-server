@@ -25,11 +25,11 @@ class ChatService {
   static create(userDtos) {
     const CHAT = new Chat({ name: userDtos.map(user => user.firstName).join(', '), users: userDtos.map(user => user._id) });
 
-    return new Promise((resolve, reject) => CHAT.save((err, chat) => {
+    return new Promise((resolve, reject) => CHAT.save(err => {
       if (err) {
         return reject(err);
       }
-      return resolve(new ChatDto(chat));
+      return resolve();
     }));
   }
 }

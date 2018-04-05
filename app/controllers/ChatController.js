@@ -36,7 +36,7 @@ class ChatController {
     }
 
     ChatService.create(users.map(user => new UserDto(user)))
-      .then(chatDto => res.status(200).json(chatDto))
+      .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(500));
   }
 }
