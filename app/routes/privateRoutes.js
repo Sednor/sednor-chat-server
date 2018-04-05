@@ -9,6 +9,7 @@ router.get(`${AuthController.prefix}/current`, AuthController.current);
 
 router.get(`${UserController.prefix}/index`, UserController.index);
 
+router.get(`${ChatController.prefix}/index`, ChatController.index);
 router.get(`${ChatController.prefix}/:id`, ChatController.findById);
 router.post(`${ChatController.prefix}`, ChatController.create);
 
