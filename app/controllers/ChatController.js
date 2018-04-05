@@ -1,4 +1,3 @@
-let ChatDto = require('../dtos/ChatDto');
 let ChatService = require('../services/ChatService');
 
 class ChatController {
@@ -8,13 +7,13 @@ class ChatController {
 
   static findById(req, res) {
     ChatService.findById(req.params.id)
-      .then(chat => res.status(200).json(new ChatDto(chat)))
+      .then(chat => res.status(200).json(chat))
       .catch(() => res.sendStatus(500));
   }
 
   static create(req, res) {
     ChatService.create(req.body.users)
-      .then(chat => res.status(200).json(new ChatDto(chat)))
+      .then(chat => res.status(200).json(chat))
       .catch(() => res.sendStatus(500));
   }
 }

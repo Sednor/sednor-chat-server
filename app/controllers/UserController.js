@@ -1,4 +1,3 @@
-let UserDto = require('../dtos/UserDto');
 let UserService = require('../services/UserService');
 
 class UserController {
@@ -8,7 +7,7 @@ class UserController {
 
   static index(req, res) {
     UserService.findAll()
-      .then(response => res.status(200).json(response.map(user => new UserDto(user))))
+      .then(users => res.status(200).json(users))
       .catch(() => res.sendStatus(500));
   }
 }
