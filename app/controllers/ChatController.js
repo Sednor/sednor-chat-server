@@ -27,7 +27,7 @@ class ChatController {
   }
 
   static create(req, res) {
-    let users = JSON.parse(req.body.users);
+    let users = req.body.users;
     let currentUser = new UserDto(req.user.data);
 
     if (!users.map(user => user._id).includes(currentUser._id)) {
@@ -36,7 +36,7 @@ class ChatController {
     }
 
     ChatService.create(users.map(user => new UserDto(user)))
-      .then(() => res.sendStatus(200))
+      .then(chatDto => res.status(200).json(chatDto))
       .catch(() => res.sendStatus(500));
   }
 }
