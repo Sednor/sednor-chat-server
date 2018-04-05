@@ -5,8 +5,6 @@ let config = require('../config/index');
 let User = require('../models/User');
 let UserDto = require('../dtos/UserDto');
 
-let saltRounds = 10;
-
 class AuthService {
   static signIn(email, password) {
     return new Promise((resolve, reject) => User.findOne({ email }, (err, user) => {
@@ -25,7 +23,7 @@ class AuthService {
 
   static signUp(user) {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(user.password, saltRounds, (error, hash) => {
+      bcrypt.hash(user.password, config.saltRounds, (error, hash) => {
         const USER = new User({
           email: user.email,
           firstName: user.firstName,

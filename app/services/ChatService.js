@@ -12,12 +12,14 @@ class ChatService {
   }
 
   static findById(id) {
-    return new Promise((resolve, reject) => Chat.findOne({ _id: id }, (err, chat) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(new ChatDto(chat));
-    }));
+    return new Promise((resolve, reject) => Chat.findOne({ _id: id })
+      .populate('users')
+      .exec((err, chat) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(new ChatDto(chat));
+      }));
   }
 
   static create(userDtos) {

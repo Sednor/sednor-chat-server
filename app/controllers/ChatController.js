@@ -8,13 +8,21 @@ class ChatController {
 
   static index(req, res) {
     ChatService.findAll(req.user.data._id)
-      .then(chats => res.status(200).json(chats))
+      .then(chatDtos => res.status(200).json(chatDtos))
       .catch(() => res.sendStatus(500));
   }
 
   static findById(req, res) {
+    let currentUser = new UserDto(req.user.data);
+
     ChatService.findById(req.params.id)
-      .then(chat => res.status(200).json(chat))
+      .then(chatDto => {
+        if (!chatDto.users.map(user => user._id.toString()).includes(currentUser._id)) {
+          res.sendStatus(403);
+          return;
+        }
+        res.status(200).json(chatDto);
+      })
       .catch(() => res.sendStatus(500));
   }
 
@@ -28,7 +36,7 @@ class ChatController {
     }
 
     ChatService.create(users.map(user => new UserDto(user)))
-      .then(chat => res.status(200).json(chat))
+      .then(chatDto => res.status(200).json(chatDto))
       .catch(() => res.sendStatus(500));
   }
 }
