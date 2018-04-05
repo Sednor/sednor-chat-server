@@ -7,7 +7,7 @@ class UserController {
   }
 
   static index(req, res) {
-    UserService.getAll()
+    UserService.findAll()
       .then(response => res.status(200).json(response.map(user => new UserDto(user))))
       .catch(() => res.sendStatus(500));
   }
