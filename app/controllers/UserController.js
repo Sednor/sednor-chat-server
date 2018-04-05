@@ -1,5 +1,4 @@
-let User = require('../models/User');
-let UserDto = require('../dtos/UserDto');
+let UserService = require('../services/UserService');
 
 class UserController {
   static get prefix() {
@@ -7,13 +6,9 @@ class UserController {
   }
 
   static index(req, res) {
-    User.find({}, (err, users) => {
-      if (err) {
-        res.sendStatus(500);
-        return;
-      }
-      res.status(200).json(users.map(user => new UserDto(user)));
-    });
+    UserService.findAll()
+      .then(users => res.status(200).json(users))
+      .catch(() => res.sendStatus(500));
   }
 }
 

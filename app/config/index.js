@@ -6,5 +6,6 @@ module.exports = {
   tokenExpiry: '4h',
   dbURL: 'mongodb://heroku_gchkwqm0:f72bn2t5oq47qjpo52riued8iq@ds151951.mlab.com:51951/heroku_gchkwqm0',
   chatPrefix: '/chat',
-  wsPrefix: '/ws/v1'
+  wsPrefix: '/ws/v1',
+  saltRounds: 10
 };
