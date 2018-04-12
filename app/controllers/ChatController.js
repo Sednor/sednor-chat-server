@@ -7,7 +7,7 @@ class ChatController {
   }
 
   static index(req, res) {
-    ChatService.findAll(req.user.data._id)
+    ChatService.findAll(req.user.data.id)
       .then(chatDtos => res.status(200).json(chatDtos))
       .catch(() => res.sendStatus(500));
   }
@@ -17,7 +17,7 @@ class ChatController {
 
     ChatService.findById(req.params.id)
       .then(chatDto => {
-        if (!chatDto.users.map(user => user._id).includes(currentUser._id)) {
+        if (!chatDto.users.map(user => user.id).includes(currentUser.id)) {
           res.sendStatus(403);
           return;
         }
@@ -30,7 +30,7 @@ class ChatController {
     let users = req.body.users;
     let currentUser = new UserDto(req.user.data);
 
-    if (!users.map(user => user._id).includes(currentUser._id)) {
+    if (!users.map(user => user.id).includes(currentUser.id)) {
       res.sendStatus(403);
       return;
     }

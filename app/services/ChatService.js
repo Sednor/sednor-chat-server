@@ -25,7 +25,7 @@ class ChatService {
   }
 
   static create(userDtos) {
-    const CHAT = new Chat({ name: userDtos.map(user => user.firstName).join(', '), users: userDtos.map(user => user._id) });
+    const CHAT = new Chat({ name: userDtos.map(user => user.firstName).join(', '), users: userDtos.map(user => user.id) });
 
     return new Promise((resolve, reject) => CHAT.save(() => {
       CHAT.populate('users', (err, chat) => {

@@ -3,6 +3,6 @@ module.exports = {
   noToken: 'No token!',
   authFailed: 'Failed to authenticate token!',
   alreadyInUse: 'Email is already in use!',
-  notVerified: 'Your email was not verified!',
+  notVerified: 'Your email is not verified!',
   verifyFailed: 'Failed to verify email!'
 };
