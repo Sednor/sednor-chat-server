@@ -15,12 +15,13 @@ class AuthService {
       if (err || !user) {
         return reject(err);
       }
-      if (!user.verified) {
-        return reject(errors.notVerified);
-      }
 
       bcrypt.compare(password, user.password, (error, result) => {
         if (result) {
+          if (!user.verified) {
+            return reject(errors.notVerified);
+          }
+
           return resolve(new UserDto(user));
         } else {
           return reject(error);
@@ -30,8 +31,12 @@ class AuthService {
   }
 
   static signUp(user) {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(user.password, config.saltRounds, (error, hash) => {
+    return new Promise((resolve, reject) => User.findOne({ email: user.email }, (err, result) => {
+      if (result) {
+        return reject(errors.alreadyInUse);
+      }
+
+      bcrypt.hash(user.password, config.saltRounds, (cryptError, hash) => {
         const USER = new User({
           email: user.email,
           firstName: user.firstName,
@@ -39,9 +44,9 @@ class AuthService {
           password: hash
         });
 
-        USER.save((err, userModel) => {
-          if (err) {
-            return reject(err);
+        USER.save((error, userModel) => {
+          if (error) {
+            return reject(error);
           }
 
           let userDto = new UserDto(userModel);
@@ -52,7 +57,7 @@ class AuthService {
           return resolve();
         });
       });
-    });
+    }));
   }
 
   static createToken(data, secret = config.JWT_SECRET, expiry = config.tokenExpiry) {

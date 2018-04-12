@@ -26,7 +26,7 @@ class AuthController {
   static signUp(req, res) {
     AuthService.signUp(req.body)
       .then(() => res.sendStatus(200))
-      .catch(() => res.sendStatus(500));
+      .catch(err => err === errors.alreadyInUse ? res.status(500).json({ error: { message: errors.alreadyInUse } }) : res.sendStatus(500));
   }
 
   static current(req, res) {
