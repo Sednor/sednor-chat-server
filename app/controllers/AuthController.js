@@ -1,5 +1,6 @@
 let config = require('../config/index');
 let errors = require('../config/errors');
+let messages = require('../config/messages');
 
 let UserDto = require('../dtos/UserDto');
 let AuthService = require('../services/AuthService');
@@ -15,7 +16,11 @@ class AuthController {
         res.set(config.authHeader, AuthService.createToken(userDto));
         res.sendStatus(200);
       })
-      .catch(() => res.status(401).json({ error: { message: errors.invalidCredentials } }));
+      .catch(err => res.status(401).json({
+        error: {
+          message: err === errors.notVerified ? errors.notVerified : errors.invalidCredentials
+        }
+      }));
   }
 
   static signUp(req, res) {
@@ -26,6 +31,12 @@ class AuthController {
 
   static current(req, res) {
     res.json(new UserDto(req.user.data));
+  }
+
+  static verify(req, res) {
+    AuthService.verifyEmail(req.params.token)
+      .then(() => res.status(200).send(messages.verifiedEmail))
+      .catch(() => res.status(403).send(errors.verifyFailed));
   }
 }
 
