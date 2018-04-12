@@ -36,7 +36,7 @@ class AuthController {
   static verify(req, res) {
     AuthService.verifyEmail(req.params.token)
       .then(() => res.status(200).send(messages.verifiedEmail))
-      .catch(() => res.status(403).send(errors.verifyFailed));
+      .catch(err => res.status(403).send(err === messages.alreadyVerified ? messages.alreadyVerified : errors.verifyFailed));
   }
 }
 

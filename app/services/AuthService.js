@@ -3,6 +3,7 @@ let jwt = require('jsonwebtoken');
 
 let config = require('../config/index');
 let errors = require('../config/errors');
+let messages = require('../config/messages');
 
 let User = require('../models/User');
 let UserDto = require('../dtos/UserDto');
@@ -68,12 +69,17 @@ class AuthService {
         return reject(error);
       }
 
-      User.update({ email: userDto.email }, { verified: true }, (err, user) => {
+      User.findOne({ email: userDto.email }, (err, user) => {
         if (err) {
           return reject(err);
         }
+        if (user.verified) {
+          return reject(messages.alreadyVerified);
+        }
 
-        return resolve(user);
+        user.verified = true;
+        user.save();
+        return resolve(new UserDto(user));
       });
     });
   }
