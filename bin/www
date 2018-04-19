@@ -105,13 +105,15 @@ let chatNamespace = io.of(`${config.wsPrefix}${config.chatPrefix}`);
 chatNamespace.use(wsAuthMiddleware);
 
 chatNamespace.on('connection', socket => {
-  let rooms = ['room1', 'room2'];
-  rooms.forEach(room => socket.join(room));
-
   socket.on('message', data => {
-    if (Object.keys(socket.rooms).includes(data.room)) {
-      chatNamespace.to(data.room).emit(`Message from ${socket.user.firstName}: ${data.payload}`);
+    if (!Object.keys(socket.rooms).includes(data.room)) {
+      socket.join(data.room);
     }
+    socket.broadcast.to(data.room).emit('message', {
+      room: data.room,
+      payload: data.payload
+    });
+    console.log(data);
   });
 
   socket.on('create-chat', data => {
