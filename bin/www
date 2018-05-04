@@ -116,7 +116,14 @@ chatNamespace.on('connection', socket => {
     console.log(data);
   });
 
-  socket.on('create-chat', data => {
+  socket.on('open-chat', data => {
     socket.join(data.room);
+  });
+
+  socket.on('create-chat', data => {
+    socket.broadcast.emit('create-chat', {
+      room: data.room,
+      users: data.users
+    });
   });
 });
